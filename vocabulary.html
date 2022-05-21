@@ -13,13 +13,14 @@
 
 					(async () => {
 					  const res = await notion.database.query({
-					  	database_id: "c3e7012a55d74274a0187a023cbedade",
+					  	database_id: "c3e7012a55d74274a0187a023cbedade"/*,
 					  	filter: {
 					  		"id": "2f33458c-0e4c-495f-819f-c567df0cfe70"
-					  	}
+					  	}*/
 					  });
 
-					  cdocument.getElementById("result").innerHTML = res;
+					  console.log(res);
+					  document.getElementById("result").innerHTML = res;
 					})();
 				}
 			</script>
