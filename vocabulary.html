@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>隨機單字卡</title>
+		<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+			<script>
+				function connect() {
+					const { Client } = require('@notionhq/client');
+					const notion = new Client({
+						auth: "secret_jOdHNq4OpBjNwqJZowELA4HMoK7vD8Gjru88LNeFOaF"
+					});
+
+					(async () => {
+					  const res = await notion.database.query({
+					  	database_id: "c3e7012a55d74274a0187a023cbedade",
+					  	filter: {
+					  		"id": "2f33458c-0e4c-495f-819f-c567df0cfe70"
+					  	}
+					  });
+
+					  cdocument.getElementById("result").innerHTML = res;
+					})();
+				}
+			</script>
+	</head>
+	<body>
+		<div align="center">
+			<h1>隨機單字卡</h1>
+			<div id="buttonDiv">
+				<input type="button" id="connect" value="connect" onclick="connect()">
+			</div>
+			<br>
+			<div id="resultDiv">
+				<label id="result" style="font-size: 30px; font-weight: bold;"></label>
+				<label id="resultR" style="font-size: 30px; font-weight: bold;"></label>
+			</div>
+		</div>
+	</body>
+</html>
