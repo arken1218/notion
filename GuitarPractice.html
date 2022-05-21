@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>指板位置練習</title>
+		<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+			<script>
+				var notes = ["C", "D", "E", "F", "G", "A", "B"];
+				var accidentals  = ["#", "b", ""];
+				var rs = ["大三", "完全五", "八"];
+				var practiceMode;
+
+				function create() {
+					var result = "";
+					var noteCount = 1;
+					var color1 =  "#4287f5";
+					var color2 =  "#f23f4b";
+					var singleOrMulti = getCheckedValue("singleOrMulti");
+
+					if (singleOrMulti == "S") {
+						noteCount = 10;
+					} else if (singleOrMulti == "M") {
+						noteCount = 1;
+					}
+
+					for (var i = 0; i < noteCount; i++) {
+						var nr = getRandom(7);
+						var ar = getRandom(3);
+						var note = notes[nr];
+						var accidental = accidentals[ar];
+
+						if (getCheckedValue("needAccidental") == "N") accidental = "";	//	升降記號
+
+						result += "<label style='color: " + (i % 2 == 0 ? color1 : color2) + "; font-size: 30px;'>" + note + accidental + "</label> ";
+					}
+
+					var resultR = "";
+					if (practiceMode == "R") {
+						var rr = getRandom(3);
+						var rrs = rs[rr];
+						resultR = "<label style='color: #f01120; font-size: 30px; font-weight: bold;'>的" + rrs + "度</label>";
+					}
+
+					document.getElementById("result").innerHTML = result;
+					document.getElementById("resultR").innerHTML = resultR;
+				}
+
+				/**
+				 * 取得radio的value
+				 */
+				function getCheckedValue(name) {
+					var values = document.getElementsByName(name);
+
+					if (values.length > 0) {
+						for (var i = 0; i < values.length; i++) {
+							if (values[i].checked) return values[i].value;
+						}
+					}
+
+					return;
+				}
+
+				/**
+				 * 設定radio的value
+				 */
+				function setCheckedValue(name, value) {
+					var values = document.getElementsByName(name);
+
+					if (values.length > 0) {
+						for (var i = 0; i < values.length; i++) {
+							if (values[i].value == value) values[i].checked = true;
+						}
+					}
+
+					return;
+				}
+
+				/**
+				 * 取得範圍(0~max)內隨機數
+				 */
+				function getRandom(max) {
+					return Math.floor(Math.random() * max);
+				}
+
+				function practiceModeChange(mode) {
+					practiceMode = mode;
+
+					if (mode == "A") {
+						document.getElementById("singleOrMultiTr").style.display = "table-row";
+					} else if (mode == "R") {
+						document.getElementById("singleOrMultiTr").style.display = "none";
+						setCheckedValue("singleOrMulti", "M");
+					}
+				}
+			</script>
+	</head>
+	<body>
+		<div align="center">
+			<h1>指板位置練習</h1>
+			<div id="practiceModeDiv">
+				<table>
+					<tr>
+						<td>
+							<label style="font-weight: bold;">練習模式：</label>
+						</td>
+						<td>
+							<label><input type="radio" name="practiceMode" value="A" checked onclick="practiceModeChange(this.value)">絕對音</label>
+							<label><input type="radio" name="practiceMode" value="R" onclick="practiceModeChange(this.value)">相對音</label>
+						</td>
+					</tr>
+					<tr id="singleOrMultiTr">
+						<td>
+							<label style="font-weight: bold;">單/多弦：</label>
+						</td>
+						<td>
+							<label><input type="radio" name="singleOrMulti" value="S" checked>單弦多音隨機</label>
+							<label><input type="radio" name="singleOrMulti" value="M">多弦單音隨機</label>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label style="font-weight: bold;">升降記號：</label>
+						</td>
+						<td>
+							<label><input type="radio" name="needAccidental" value="Y" checked>要</label>
+							<label><input type="radio" name="needAccidental" value="N">不要</label>
+						</td>
+					</tr>
+				</table>
+				<br>
+				<input type="button" id="create" value="產生隨機練習" onclick="create()">
+			</div>
+			<br>
+			<div id="resultDiv">
+				<label id="result" style="font-size: 30px; font-weight: bold;"></label>
+				<label id="resultR" style="font-size: 30px; font-weight: bold;"></label>
+			</div>
+		</div>
+	</body>
+</html>
